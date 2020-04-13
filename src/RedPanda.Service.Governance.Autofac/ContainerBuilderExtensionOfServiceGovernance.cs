@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace RedPanda.Service.Governance.Autofac
+namespace RedPanda.Service.Governance
 {
     public static class ContainerBuilderExtensionOfServiceGovernance
     {

@@ -8,6 +8,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>HealthCheck WebApi</PackageTags>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <RootNamespace>RedPanda.Service.HealthCheck</RootNamespace>
+    <Version>1.0.1</Version>
   </PropertyGroup>
   
   <ItemGroup>

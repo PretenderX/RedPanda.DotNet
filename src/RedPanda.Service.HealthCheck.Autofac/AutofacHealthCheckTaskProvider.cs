@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace RedPanda.Service.HealthCheck.Autofac
+namespace RedPanda.Service.HealthCheck
 {
     public class AutofacHealthCheckTaskProvider : IHealthCheckTaskProvider
     {

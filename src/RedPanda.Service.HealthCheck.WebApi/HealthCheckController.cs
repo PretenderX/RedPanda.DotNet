@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace RedPanda.Service.HealthCheck.WebApi
+namespace RedPanda.Service.HealthCheck
 {
     [RoutePrefix("api/healthcheck")]
     public class HealthCheckController : ApiController

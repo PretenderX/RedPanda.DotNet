@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using System.Reflection;
 
-namespace RedPanda.Service.HealthCheck.Autofac
+namespace RedPanda.Service.HealthCheck
 {
     public static class ContainerBuilderExtensionOfServiceHealthCheck
     {
