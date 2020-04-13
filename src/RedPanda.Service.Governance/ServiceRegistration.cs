@@ -16,17 +16,30 @@ namespace RedPanda.Service.Governance
         public void RegisterSelf()
         {
             var serviceDescription = SelfServiceDescriptionProvider.Build();
+            var serviceSchema = serviceDescription.ServiceSchema ?? "http";
+            var serviceMeta = new Dictionary<string, string>
+            {
+                { ServiceGovernanceConsts.ServiceSchema, serviceSchema }
+            };
+            var healthCheckVirtualDirectory = string.Empty;
+
+            if (!string.IsNullOrEmpty(serviceDescription.VirtualDirectory) && serviceDescription.VirtualDirectory != "/")
+            {
+                serviceMeta.Add(ServiceGovernanceConsts.ServiceVirtualDirectory, serviceDescription.VirtualDirectory);
+                healthCheckVirtualDirectory = $"/{serviceDescription.VirtualDirectory}/";
+            }
+
             var serviceCheck = new AgentServiceCheck
             {
                 DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(15),
                 Interval = TimeSpan.FromSeconds(10),
-                HTTP = $"{serviceDescription.ServiceSchema ?? "http"}://{serviceDescription.Host}:{serviceDescription.Port}{serviceDescription.HealthCheckRoute ?? "/"}",
+                HTTP = $"{serviceSchema}://{serviceDescription.Host}:{serviceDescription.Port}{healthCheckVirtualDirectory}{serviceDescription.HealthCheckRoute ?? string.Empty}",
                 Timeout = TimeSpan.FromSeconds(5),
             };
 
             var serviceNames = new List<string> { serviceDescription.ServiceName };
 
-            if (serviceDescription.ServiceAliases.Contains(","))
+            if (serviceDescription.ServiceAliases != null && serviceDescription.ServiceAliases.Contains(","))
             {
                 foreach (var serviceAlias in serviceDescription.ServiceAliases.Split(','))
                 {
@@ -49,6 +62,7 @@ namespace RedPanda.Service.Governance
                         ID = Guid.NewGuid().ToString(),
                         Address = serviceDescription.Host,
                         Port = serviceDescription.Port == 0 ? 80 : serviceDescription.Port,
+                        Meta = serviceMeta,
                     };
 
                     if (string.IsNullOrEmpty(serviceDescription.ServiceSpace))

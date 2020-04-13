@@ -17,6 +17,8 @@
 
         public int Port { get; set; }
 
+        public string VirtualDirectory { get; set; }
+
         public string HealthCheckRoute { get; set; }
     }
 }

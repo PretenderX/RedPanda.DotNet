@@ -8,6 +8,7 @@
         public const string ServiceSchema = "ServiceSchema";
         public const string ServiceHost = "ServiceHost";
         public const string ServicePort = "ServicePort";
+        public const string ServiceVirtualDirectory = "ServiceVirtualDirectory";
         public const string ServiceHealthRoute = "ServiceHealthCheckRoute";
 
         public const string ConsulAddress = "ConsulAddress";
