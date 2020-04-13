@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.HealthCheck", "RedPanda.Service.HealthCheck\RedPanda.Service.HealthCheck.csproj", "{5CFA465D-856E-4F04-ADDE-90C73701E4D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.HealthCheck.WebApi", "RedPanda.Service.HealthCheck.WebApi\RedPanda.Service.HealthCheck.WebApi.csproj", "{C3201B73-7509-469E-B331-545F8C7E127A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.Governance", "RedPanda.Service.Governance\RedPanda.Service.Governance.csproj", "{EFF93668-A14E-468A-8B8C-E5E5828025DD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.Governance.Autofac", "RedPanda.Service.Governance.Autofac\RedPanda.Service.Governance.Autofac.csproj", "{E971D5EC-CDBE-4FEF-BFC5-1715C91A4D7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedPanda.Service.HealthCheck.Autofac", "RedPanda.Service.HealthCheck.Autofac\RedPanda.Service.HealthCheck.Autofac.csproj", "{84820CD6-6654-4E02-B80C-C69E660E7071}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5CFA465D-856E-4F04-ADDE-90C73701E4D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CFA465D-856E-4F04-ADDE-90C73701E4D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CFA465D-856E-4F04-ADDE-90C73701E4D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CFA465D-856E-4F04-ADDE-90C73701E4D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3201B73-7509-469E-B331-545F8C7E127A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3201B73-7509-469E-B331-545F8C7E127A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3201B73-7509-469E-B331-545F8C7E127A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3201B73-7509-469E-B331-545F8C7E127A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFF93668-A14E-468A-8B8C-E5E5828025DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFF93668-A14E-468A-8B8C-E5E5828025DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFF93668-A14E-468A-8B8C-E5E5828025DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFF93668-A14E-468A-8B8C-E5E5828025DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E971D5EC-CDBE-4FEF-BFC5-1715C91A4D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E971D5EC-CDBE-4FEF-BFC5-1715C91A4D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E971D5EC-CDBE-4FEF-BFC5-1715C91A4D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E971D5EC-CDBE-4FEF-BFC5-1715C91A4D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84820CD6-6654-4E02-B80C-C69E660E7071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84820CD6-6654-4E02-B80C-C69E660E7071}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84820CD6-6654-4E02-B80C-C69E660E7071}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84820CD6-6654-4E02-B80C-C69E660E7071}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {647A1F7C-63C6-47D9-81C4-7C25FB57E012}
+	EndGlobalSection
+EndGlobal

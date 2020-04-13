@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>RedPanda.Net</Company>
+    <Authors>PretenderX</Authors>
+    <RepositoryUrl>https://github.com/PretenderX/RedPanda.Net</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>HealthCheck WebApi</PackageTags>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.4" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\RedPanda.Service.HealthCheck\RedPanda.Service.HealthCheck.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>
