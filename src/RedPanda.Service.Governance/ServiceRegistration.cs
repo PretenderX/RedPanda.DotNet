@@ -1,15 +1,16 @@
 ﻿using Consul;
 using System;
+using System.Collections.Generic;
 
 namespace RedPanda.Service.Governance
 {
     public class ServiceRegistration : IServiceRegistration
     {
-        private readonly string serviceId;
+        private readonly IDictionary<string, string> serviceIds;
 
         public ServiceRegistration()
         {
-            serviceId = Guid.NewGuid().ToString();
+            serviceIds = new Dictionary<string, string>();
         }
 
         public void RegisterSelf()
@@ -22,28 +23,48 @@ namespace RedPanda.Service.Governance
                 HTTP = $"{serviceDescription.ServiceSchema ?? "http"}://{serviceDescription.Host}:{serviceDescription.Port}{serviceDescription.HealthCheckRoute ?? "/"}",
                 Timeout = TimeSpan.FromSeconds(5),
             };
-            var serviceRegistration = new AgentServiceRegistration
-            {
-                Checks = new[] { serviceCheck },
-                ID = serviceId,
-                Address = serviceDescription.Host,
-                Port = serviceDescription.Port == 0 ? 80 : serviceDescription.Port,
-            };
 
-            if (string.IsNullOrEmpty(serviceDescription.ServiceSpace))
+            var serviceNames = new List<string> { serviceDescription.ServiceName };
+
+            if (serviceDescription.ServiceAliases.Contains(","))
             {
-                serviceRegistration.Name = serviceDescription.ServiceName;
-                serviceRegistration.Tags = new[] { $"urlprefix-/{serviceRegistration.Name}" };
-            }
-            else
-            {
-                serviceRegistration.Name = $"{serviceDescription.ServiceSpace}.{serviceDescription.ServiceName}";
-                serviceRegistration.Tags = new[] { serviceDescription.ServiceSpace, $"urlprefix-/{serviceRegistration.Name}" };
+                foreach (var serviceAlias in serviceDescription.ServiceAliases.Split(','))
+                {
+                    var trimmedAlias = serviceAlias.Trim();
+
+                    if (!string.IsNullOrEmpty(trimmedAlias))
+                    {
+                        serviceNames.Add(trimmedAlias);
+                    }
+                }
             }
 
             using (var consulClient = ConsulClientFactory.Create())
             {
-                consulClient.Agent.ServiceRegister(serviceRegistration).Wait();
+                foreach (var serviceName in serviceNames)
+                {
+                    var serviceRegistration = new AgentServiceRegistration
+                    {
+                        Checks = new[] { serviceCheck },
+                        ID = Guid.NewGuid().ToString(),
+                        Address = serviceDescription.Host,
+                        Port = serviceDescription.Port == 0 ? 80 : serviceDescription.Port,
+                    };
+
+                    if (string.IsNullOrEmpty(serviceDescription.ServiceSpace))
+                    {
+                        serviceRegistration.Name = serviceName;
+                        serviceRegistration.Tags = new[] { $"urlprefix-/{serviceRegistration.Name}" };
+                    }
+                    else
+                    {
+                        serviceRegistration.Name = $"{serviceDescription.ServiceSpace}.{serviceName}";
+                        serviceRegistration.Tags = new[] { serviceDescription.ServiceSpace, $"urlprefix-/{serviceRegistration.Name}" };
+                    }
+
+                    consulClient.Agent.ServiceRegister(serviceRegistration).Wait();
+                    serviceIds.Add(serviceRegistration.Name, serviceRegistration.ID);
+                }
             }
         }
 
@@ -51,7 +72,10 @@ namespace RedPanda.Service.Governance
         {
             using (var consulClient = ConsulClientFactory.Create())
             {
-                consulClient.Agent.ServiceDeregister(serviceId).Wait();
+                foreach (var serviceName in serviceIds.Keys)
+                {
+                    consulClient.Agent.ServiceDeregister(serviceIds[serviceName]).Wait();
+                }
             }
         }
 

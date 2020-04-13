@@ -6,6 +6,8 @@
 
         public string ServiceName { get; set; }
 
+        public string ServiceAliases { get; set; }
+
         /// <summary>
         /// http or https
         /// </summary>

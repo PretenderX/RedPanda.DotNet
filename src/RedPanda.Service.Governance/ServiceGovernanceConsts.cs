@@ -4,6 +4,7 @@
     {
         public const string ServiceSpace = "ServiceSpace";
         public const string ServiceName = "ServiceName";
+        public const string ServiceAliases = "ServiceAliases";
         public const string ServiceSchema = "ServiceSchema";
         public const string ServiceHost = "ServiceHost";
         public const string ServicePort = "ServicePort";
