@@ -15,7 +15,7 @@ namespace RedPanda.Service.Governance
 
         public void RegisterSelf()
         {
-            var serviceDescription = SelfServiceDescriptionProvider.Build();
+            var serviceDescription = LocalServiceDescriptionProvider.Build();
             var serviceSchema = serviceDescription.ServiceSchema ?? "http";
             var serviceMeta = new Dictionary<string, string>
             {

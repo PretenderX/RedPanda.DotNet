@@ -2,7 +2,7 @@
 
 namespace RedPanda.Service.Governance
 {
-    public static class SelfServiceDescriptionProvider
+    public static class LocalServiceDescriptionProvider
     {
         public static ServiceDescription Build()
         {

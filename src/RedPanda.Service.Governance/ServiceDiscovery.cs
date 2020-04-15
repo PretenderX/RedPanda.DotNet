@@ -8,10 +8,11 @@ namespace RedPanda.Service.Governance
     {
         public async Task<CatalogService[]> GetCatalogServicesAsync(string serviceName, string serviceSpace = null, string serviceTag = null)
         {
+            var scopedServiceName = GetScopedServiceName(serviceName, serviceSpace);
+
             using (var consulClient = ConsulClientFactory.Create())
             {
-                var serviceFullName = GetServiceFullName(serviceName, serviceSpace);
-                var queryResult = string.IsNullOrEmpty(serviceTag) ? await consulClient.Catalog.Service(serviceFullName) : await consulClient.Catalog.Service(serviceFullName, serviceTag);
+                var queryResult = string.IsNullOrEmpty(serviceTag) ? await consulClient.Catalog.Service(scopedServiceName) : await consulClient.Catalog.Service(scopedServiceName, serviceTag);
 
                 return queryResult.Response;
             }
@@ -38,7 +39,7 @@ namespace RedPanda.Service.Governance
             }).ToArray();
         }
 
-        private string GetServiceFullName(string serviceName, string serviceSpace)
+        private string GetScopedServiceName(string serviceName, string serviceSpace)
         {
             return string.IsNullOrEmpty(serviceSpace) ? serviceName : $"{serviceSpace}.{serviceName}";
         }

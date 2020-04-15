@@ -8,6 +8,7 @@ namespace RedPanda.Service.Governance
         {
             builder.RegisterType<ServiceRegistration>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<ServiceDiscovery>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<ScopedConfigManager>().AsImplementedInterfaces().SingleInstance();
 
             return builder;
         }
