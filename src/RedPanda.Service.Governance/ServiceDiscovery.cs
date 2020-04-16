@@ -18,6 +18,13 @@ namespace RedPanda.Service.Governance
             }
         }
 
+        public Task<CatalogService[]> GetCatalogServicesByLocalSpaceAsync(string serviceName, string serviceTag = null)
+        {
+            var localServiceSpace = LocalServiceDescriptionProvider.GetLocalServiceSpace();
+
+            return GetCatalogServicesAsync(serviceName, localServiceSpace, serviceTag);
+        }
+
         public async Task<string[]> GetServiceAddressesAsync(string serviceName, string serviceSpace = null, string serviceTag = null)
         {
             var catalogServices = await GetCatalogServicesAsync(serviceName, serviceSpace, serviceTag);
@@ -37,6 +44,13 @@ namespace RedPanda.Service.Governance
 
                 return $"{serviceSchema}://{s.ServiceAddress}:{s.ServicePort}";
             }).ToArray();
+        }
+
+        public Task<string[]> GetServiceAddressesByLocalSpaceAsync(string serviceName, string serviceTag = null)
+        {
+            var localServiceSpace = LocalServiceDescriptionProvider.GetLocalServiceSpace();
+
+            return GetServiceAddressesAsync(serviceName, localServiceSpace, serviceTag);
         }
 
         private string GetScopedServiceName(string serviceName, string serviceSpace)

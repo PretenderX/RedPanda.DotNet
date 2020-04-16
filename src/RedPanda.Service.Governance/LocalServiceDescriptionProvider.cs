@@ -19,6 +19,11 @@ namespace RedPanda.Service.Governance
             };
         }
 
+        public static string GetLocalServiceSpace()
+        {
+            return GetAppSetting(ServiceGovernanceConsts.ServiceSpace);
+        }
+
         private static string GetAppSetting(string name, bool isOptional = true) => ServiceGovernanceConfigProvider.GetAppSetting(name, isOptional);
     }
 }
