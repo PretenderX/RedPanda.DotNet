@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.Governance
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.Governance.Autofac", "RedPanda.Service.Governance.Autofac\RedPanda.Service.Governance.Autofac.csproj", "{E971D5EC-CDBE-4FEF-BFC5-1715C91A4D7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedPanda.Service.HealthCheck.Autofac", "RedPanda.Service.HealthCheck.Autofac\RedPanda.Service.HealthCheck.Autofac.csproj", "{84820CD6-6654-4E02-B80C-C69E660E7071}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.HealthCheck.Autofac", "RedPanda.Service.HealthCheck.Autofac\RedPanda.Service.HealthCheck.Autofac.csproj", "{84820CD6-6654-4E02-B80C-C69E660E7071}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedPanda.Service.Governance.NewtonsoftJson", "RedPanda.Service.Governance.NewtonsoftJson\RedPanda.Service.Governance.NewtonsoftJson.csproj", "{80F61D84-43E2-4F79-B63B-F2249EEE410C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedPanda.Service.Governance.Test", "RedPanda.Service.Governance.Test\RedPanda.Service.Governance.Test.csproj", "{E33422A2-5F56-4B82-8F1C-7421E3049D5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{84820CD6-6654-4E02-B80C-C69E660E7071}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84820CD6-6654-4E02-B80C-C69E660E7071}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84820CD6-6654-4E02-B80C-C69E660E7071}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80F61D84-43E2-4F79-B63B-F2249EEE410C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F61D84-43E2-4F79-B63B-F2249EEE410C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F61D84-43E2-4F79-B63B-F2249EEE410C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F61D84-43E2-4F79-B63B-F2249EEE410C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E33422A2-5F56-4B82-8F1C-7421E3049D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E33422A2-5F56-4B82-8F1C-7421E3049D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E33422A2-5F56-4B82-8F1C-7421E3049D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E33422A2-5F56-4B82-8F1C-7421E3049D5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,10 +1,11 @@
-﻿using System.Configuration;
+﻿using RedPanda.Service.Governance.Exceptions;
+using System.Configuration;
 
-namespace RedPanda.Service.Governance
+namespace RedPanda.Service.Governance.Common
 {
-    internal static class ServiceGovernanceConfigProvider
+    public class ServiceGovernanceConfigProvider : IServiceGovernanceConfigProvider
     {
-        internal static string GetAppSetting(string name, bool isOptional = true)
+        public string GetAppSetting(string name, bool isOptional = true)
         {
             var value = ConfigurationManager.AppSettings.Get(name);
 

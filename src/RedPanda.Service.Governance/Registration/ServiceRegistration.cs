@@ -1,8 +1,9 @@
 ﻿using Consul;
+using RedPanda.Service.Governance.Common;
 using System;
 using System.Collections.Generic;
 
-namespace RedPanda.Service.Governance
+namespace RedPanda.Service.Governance.Registration
 {
     public class ServiceRegistration : IServiceRegistration
     {

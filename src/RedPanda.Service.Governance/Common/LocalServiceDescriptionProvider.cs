@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RedPanda.Service.Governance
+namespace RedPanda.Service.Governance.Common
 {
     public static class LocalServiceDescriptionProvider
     {
@@ -24,6 +24,6 @@ namespace RedPanda.Service.Governance
             return GetAppSetting(ServiceGovernanceConsts.ServiceSpace);
         }
 
-        private static string GetAppSetting(string name, bool isOptional = true) => ServiceGovernanceConfigProvider.GetAppSetting(name, isOptional);
+        private static string GetAppSetting(string name, bool isOptional = true) => ServiceGovernanceConfig.ServiceGovernanceConfigProvider.GetAppSetting(name, isOptional);
     }
 }

@@ -1,4 +1,7 @@
 ﻿using Autofac;
+using RedPanda.Service.Governance.Configuration;
+using RedPanda.Service.Governance.Discovery;
+using RedPanda.Service.Governance.Registration;
 
 namespace RedPanda.Service.Governance
 {

@@ -1,7 +1,7 @@
 ﻿using Consul;
 using System.Threading.Tasks;
 
-namespace RedPanda.Service.Governance
+namespace RedPanda.Service.Governance.Discovery
 {
     public interface IServiceDiscovery
     {

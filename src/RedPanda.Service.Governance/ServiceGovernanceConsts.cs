@@ -12,5 +12,7 @@
         public const string ServiceHealthRoute = "ServiceHealthCheckRoute";
 
         public const string ConsulAddress = "ConsulAddress";
+
+        public const char JsonPropertyNameSplitChar = ':';
     }
 }

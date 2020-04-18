@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RedPanda.Service.Governance
+namespace RedPanda.Service.Governance.Configuration
 {
     public class ConfigManagerBase
     {

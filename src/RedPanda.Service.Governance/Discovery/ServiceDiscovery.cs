@@ -1,8 +1,9 @@
 ﻿using Consul;
+using RedPanda.Service.Governance.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RedPanda.Service.Governance
+namespace RedPanda.Service.Governance.Discovery
 {
     public class ServiceDiscovery : IServiceDiscovery
     {
