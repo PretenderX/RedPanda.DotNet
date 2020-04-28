@@ -14,7 +14,7 @@ namespace RedPanda.Service.Governance.Registration
             serviceIds = new Dictionary<string, string>();
         }
 
-        public void RegisterSelf()
+        public void RegisterSelf(Action<Dictionary<string, string>> appendMetaAction = null)
         {
             var serviceDescription = LocalServiceDescriptionProvider.Build();
             var serviceSchema = serviceDescription.ServiceSchema ?? "http";
@@ -23,6 +23,11 @@ namespace RedPanda.Service.Governance.Registration
                 { ServiceGovernanceConsts.ServiceSchema, serviceSchema }
             };
             var healthCheckVirtualDirectory = string.Empty;
+
+            if (appendMetaAction != null)
+            {
+                appendMetaAction.Invoke(serviceMeta);
+            }
 
             if (!string.IsNullOrEmpty(serviceDescription.VirtualDirectory) && serviceDescription.VirtualDirectory != "/")
             {
