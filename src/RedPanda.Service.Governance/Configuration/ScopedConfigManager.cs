@@ -286,8 +286,8 @@ namespace RedPanda.Service.Governance.Configuration
 
         private static string GetLocalServiceScope()
         {
-            var serviceDescription = LocalServiceDescriptionProvider.Build();
-            var serviceScope = string.IsNullOrEmpty(serviceDescription.ServiceSpace) ? null : $"{serviceDescription.ServiceSpace}";
+            var localServiceSpace = LocalServiceDescriptionProvider.GetLocalServiceSpace();
+            var serviceScope = string.IsNullOrEmpty(localServiceSpace) ? null : localServiceSpace;
 
             return serviceScope;
         }
