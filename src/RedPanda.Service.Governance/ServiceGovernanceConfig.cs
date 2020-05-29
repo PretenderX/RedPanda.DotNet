@@ -1,4 +1,5 @@
 ﻿using RedPanda.Service.Governance.Common;
+using System;
 
 namespace RedPanda.Service.Governance
 {
@@ -12,5 +13,20 @@ namespace RedPanda.Service.Governance
 #endif
 
         public static IJsonProvider JsonProvider { get; set; } = new SystemTextJsonProvider();
+
+        /// <summary>
+        /// 默认60秒
+        /// </summary>
+        public static TimeSpan ServiceCheckInterval { get; set; } = TimeSpan.FromSeconds(60);
+
+        /// <summary>
+        /// 默认30秒
+        /// </summary>
+        public static TimeSpan ServiceCheckTimeout { get; set; } = TimeSpan.FromSeconds(30);
+
+        /// <summary>
+        /// 默认300秒
+        /// </summary>
+        public static TimeSpan DeregisterCriticalServiceAfter { get; set; } = TimeSpan.FromSeconds(300);
     }
 }

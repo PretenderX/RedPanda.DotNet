@@ -37,10 +37,10 @@ namespace RedPanda.Service.Governance.Registration
 
             var serviceCheck = new AgentServiceCheck
             {
-                DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(15),
-                Interval = TimeSpan.FromSeconds(10),
+                DeregisterCriticalServiceAfter = ServiceGovernanceConfig.DeregisterCriticalServiceAfter,
+                Interval = ServiceGovernanceConfig.ServiceCheckInterval,
                 HTTP = $"{serviceSchema}://{serviceDescription.Host}:{serviceDescription.Port}{healthCheckVirtualDirectory}{serviceDescription.HealthCheckRoute ?? string.Empty}",
-                Timeout = TimeSpan.FromSeconds(5),
+                Timeout = ServiceGovernanceConfig.ServiceCheckTimeout,
             };
 
             var serviceNames = new List<string> { serviceDescription.ServiceName };
