@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
     <Authors>PretenderX</Authors>
     <Company>RedPanda.Net</Company>
     <RepositoryUrl>https://github.com/PretenderX/RedPanda.Net</RepositoryUrl>
@@ -13,8 +13,15 @@
 
   <ItemGroup>
     <PackageReference Include="Consul" Version="0.7.2.6" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
     <PackageReference Include="System.Text.Json" Version="4.7.1" />
+  </ItemGroup>
+	
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+  </ItemGroup>
+	
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>
