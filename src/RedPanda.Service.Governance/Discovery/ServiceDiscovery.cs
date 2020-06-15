@@ -30,21 +30,7 @@ namespace RedPanda.Service.Governance.Discovery
         {
             var catalogServices = await GetCatalogServicesAsync(serviceName, serviceSpace, serviceTag);
 
-            return catalogServices.Select(s =>
-            {
-                s.ServiceMeta.TryGetValue(ServiceGovernanceConsts.ServiceSchema, out var serviceSchema);
-                serviceSchema = serviceSchema ?? "http";
-
-                if (s.ServiceMeta.TryGetValue(ServiceGovernanceConsts.ServiceVirtualDirectory, out var virtualDirecotory))
-                {
-                    if (!string.IsNullOrEmpty(virtualDirecotory))
-                    {
-                        return $"{serviceSchema}://{s.ServiceAddress}:{s.ServicePort}/{virtualDirecotory}";
-                    }
-                }
-
-                return $"{serviceSchema}://{s.ServiceAddress}:{s.ServicePort}";
-            }).ToArray();
+            return catalogServices.Select(s => s.GetRegisteredServiceAddress()).ToArray();
         }
 
         public Task<string[]> GetServiceAddressesByLocalSpaceAsync(string serviceName, string serviceTag = null)

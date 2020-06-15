@@ -24,6 +24,8 @@ namespace RedPanda.Service.Governance.Registration
         {
             var serviceDescription = LocalServiceDescriptionProvider.Build();
             var serviceSchema = serviceDescription.ServiceSchema ?? "http";
+            var registeringServiceAddress = $"{serviceSchema}://{serviceDescription.Host}:{serviceDescription.Port}";
+            var virtualDirectory = serviceDescription.VirtualDirectory.Trim('/');
             var serviceMeta = new Dictionary<string, string>
             {
                 { ServiceGovernanceConsts.ServiceSchema, serviceSchema }
@@ -35,17 +37,17 @@ namespace RedPanda.Service.Governance.Registration
                 appendMetaAction.Invoke(serviceMeta);
             }
 
-            if (!string.IsNullOrEmpty(serviceDescription.VirtualDirectory) && serviceDescription.VirtualDirectory != "/")
+            if (!string.IsNullOrEmpty(virtualDirectory))
             {
                 serviceMeta.Add(ServiceGovernanceConsts.ServiceVirtualDirectory, serviceDescription.VirtualDirectory);
-                healthCheckVirtualDirectory = $"/{serviceDescription.VirtualDirectory}/";
+                registeringServiceAddress = $"{registeringServiceAddress}/{serviceDescription.VirtualDirectory}";
             }
 
             var serviceCheck = new AgentServiceCheck
             {
                 DeregisterCriticalServiceAfter = ServiceGovernanceConfig.DeregisterCriticalServiceAfter,
                 Interval = ServiceGovernanceConfig.ServiceCheckInterval,
-                HTTP = $"{serviceSchema}://{serviceDescription.Host}:{serviceDescription.Port}{healthCheckVirtualDirectory}{serviceDescription.HealthCheckRoute ?? string.Empty}",
+                HTTP = $"{registeringServiceAddress}/{serviceDescription.HealthCheckRoute.Trim('/') ?? string.Empty}",
                 Timeout = ServiceGovernanceConfig.ServiceCheckTimeout,
             };
 
@@ -90,11 +92,12 @@ namespace RedPanda.Service.Governance.Registration
 
                     var existingServices = (await consulClient.Catalog.Service(serviceRegistration.Name)).Response;
 
-                    foreach (var svc in existingServices)
+                    foreach (var service in existingServices)
                     {
-                        if (svc.ServiceAddress == serviceRegistration.Address && svc.ServicePort == serviceRegistration.Port)
+                        var registeredServiceAddress = service.GetRegisteredServiceAddress();
+                        if (registeredServiceAddress == registeringServiceAddress)
                         {
-                            await consulClient.Agent.ServiceDeregister(svc.ServiceID);
+                            await consulClient.Agent.ServiceDeregister(service.ServiceID);
                         }
                     }
 
@@ -110,11 +113,16 @@ namespace RedPanda.Service.Governance.Registration
 
         public void DeregisterSelf()
         {
+            DeregisterSelfAsync().Wait();
+        }
+
+        public async Task DeregisterSelfAsync()
+        {
             using (var consulClient = ConsulClientFactory.Create())
             {
                 foreach (var serviceName in serviceIds.Keys)
                 {
-                    consulClient.Agent.ServiceDeregister(serviceIds[serviceName]).Wait();
+                    await consulClient.Agent.ServiceDeregister(serviceIds[serviceName]);
                 }
             }
         }

@@ -11,5 +11,7 @@ namespace RedPanda.Service.Governance.Registration
         Task RegisterSelfAsync(Action<Dictionary<string, string>> appendMetaAction = null);
 
         void DeregisterSelf();
+
+        Task DeregisterSelfAsync();
     }
 }
