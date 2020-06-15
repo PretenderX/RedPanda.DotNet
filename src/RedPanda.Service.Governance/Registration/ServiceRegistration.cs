@@ -2,6 +2,7 @@
 using RedPanda.Service.Governance.Common;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RedPanda.Service.Governance.Registration
 {
@@ -15,6 +16,11 @@ namespace RedPanda.Service.Governance.Registration
         }
 
         public void RegisterSelf(Action<Dictionary<string, string>> appendMetaAction = null)
+        {
+            RegisterSelfAsync(appendMetaAction).Wait();
+        }
+
+        public async Task RegisterSelfAsync(Action<Dictionary<string, string>> appendMetaAction = null)
         {
             var serviceDescription = LocalServiceDescriptionProvider.Build();
             var serviceSchema = serviceDescription.ServiceSchema ?? "http";
@@ -82,8 +88,22 @@ namespace RedPanda.Service.Governance.Registration
                         serviceRegistration.Tags = new[] { serviceDescription.ServiceSpace, $"urlprefix-/{serviceRegistration.Name}" };
                     }
 
-                    consulClient.Agent.ServiceRegister(serviceRegistration).Wait();
-                    serviceIds.Add(serviceRegistration.Name, serviceRegistration.ID);
+                    var existingServices = (await consulClient.Catalog.Service(serviceRegistration.Name)).Response;
+
+                    foreach (var svc in existingServices)
+                    {
+                        if (svc.ServiceAddress == serviceRegistration.Address && svc.ServicePort == serviceRegistration.Port)
+                        {
+                            await consulClient.Agent.ServiceDeregister(svc.ServiceID);
+                        }
+                    }
+
+                    var result = await consulClient.Agent.ServiceRegister(serviceRegistration);
+
+                    if (result.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        serviceIds.Add(serviceRegistration.Name, serviceRegistration.ID);
+                    }
                 }
             }
         }
