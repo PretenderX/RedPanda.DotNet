@@ -30,7 +30,6 @@ namespace RedPanda.Service.Governance.Registration
             {
                 { ServiceGovernanceConsts.ServiceSchema, serviceSchema }
             };
-            var healthCheckVirtualDirectory = string.Empty;
 
             if (appendMetaAction != null)
             {
@@ -45,11 +44,15 @@ namespace RedPanda.Service.Governance.Registration
 
             var serviceCheck = new AgentServiceCheck
             {
-                DeregisterCriticalServiceAfter = ServiceGovernanceConfig.DeregisterCriticalServiceAfter,
                 Interval = ServiceGovernanceConfig.ServiceCheckInterval,
                 HTTP = $"{registeringServiceAddress}/{serviceDescription.HealthCheckRoute.Trim('/') ?? string.Empty}",
                 Timeout = ServiceGovernanceConfig.ServiceCheckTimeout,
             };
+
+            if (!IsDevelopmentEnvironment())
+            {
+                serviceCheck.DeregisterCriticalServiceAfter = ServiceGovernanceConfig.DeregisterCriticalServiceAfter;
+            }
 
             var serviceNames = new List<string> { serviceDescription.ServiceName };
 
@@ -130,6 +133,13 @@ namespace RedPanda.Service.Governance.Registration
         public void Dispose()
         {
             DeregisterSelf();
+        }
+
+        private bool IsDevelopmentEnvironment()
+        {
+            var environment = Environment.GetEnvironmentVariable(ServiceGovernanceConsts.ENVIRONMENT);
+
+            return environment.Equals(ServiceGovernanceConsts.DevelopmentEnvironment, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

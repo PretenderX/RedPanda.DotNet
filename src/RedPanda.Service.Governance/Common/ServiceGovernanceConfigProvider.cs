@@ -1,7 +1,7 @@
 ﻿#if NETSTANDARD
 using System.Configuration;
 #endif
-#if NETCOREAPP
+#if NETCOREAPP3_0 || NET5_0
 using Microsoft.Extensions.Configuration;
 #endif
 using RedPanda.Service.Governance.Exceptions;
@@ -24,7 +24,7 @@ namespace RedPanda.Service.Governance.Common
         }
 #endif
 
-#if NETCOREAPP3_0
+#if NETCOREAPP3_0 || NET5_0
         protected readonly IConfiguration Configuration;
 
         public ServiceGovernanceConfigProvider(IConfiguration configuration)
