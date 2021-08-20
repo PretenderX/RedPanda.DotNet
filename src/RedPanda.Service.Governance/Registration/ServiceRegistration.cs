@@ -139,7 +139,7 @@ namespace RedPanda.Service.Governance.Registration
         {
             var environment = Environment.GetEnvironmentVariable(ServiceGovernanceConsts.ENVIRONMENT);
 
-            return environment.Equals(ServiceGovernanceConsts.DevelopmentEnvironment, StringComparison.OrdinalIgnoreCase);
+            return environment != null && environment.Equals(ServiceGovernanceConsts.DevelopmentEnvironment, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
