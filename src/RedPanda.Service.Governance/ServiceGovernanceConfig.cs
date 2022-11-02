@@ -18,12 +18,13 @@ namespace RedPanda.Service.Governance
             {
                 var configValue = ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ServiceCheckInterval);
 
-                if (TimeSpan.TryParse(configValue, out var interval))
+                if (!int.TryParse(configValue, out var interval))
                 {
-                    return interval;
+                    interval = 10;
                 }
 
-                return TimeSpan.FromSeconds(60);
+
+                return TimeSpan.FromSeconds(interval);
             }
         }
 
@@ -36,12 +37,12 @@ namespace RedPanda.Service.Governance
             {
                 var configValue = ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ServiceCheckTimeout);
 
-                if (TimeSpan.TryParse(configValue, out var interval))
+                if (int.TryParse(configValue, out var interval))
                 {
-                    return interval;
+                    interval = 30;
                 }
 
-                return TimeSpan.FromSeconds(30);
+                return TimeSpan.FromSeconds(interval);
             }
         }
 
@@ -54,12 +55,12 @@ namespace RedPanda.Service.Governance
             {
                 var configValue = ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.DeregisterCriticalServiceAfter);
 
-                if (TimeSpan.TryParse(configValue, out var interval))
+                if (!int.TryParse(configValue, out var interval))
                 {
-                    return interval;
+                    interval = 60;
                 }
 
-                return TimeSpan.FromSeconds(300);
+                return TimeSpan.FromSeconds(interval);
             }
         }
     }
