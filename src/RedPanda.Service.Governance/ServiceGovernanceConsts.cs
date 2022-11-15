@@ -20,6 +20,7 @@
         public const string DeregisterCriticalServiceAfter = "DeregisterCriticalServiceAfter";
 
         public const string ConsulAddress = "ConsulAddress";
+        public const string ConsulToken = "ConsulToken";
 
         public const char JsonPropertyNameSplitChar = ':';
     }
