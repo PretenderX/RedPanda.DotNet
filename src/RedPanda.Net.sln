@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29926.136
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33103.201
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.HealthCheck", "RedPanda.Service.HealthCheck\RedPanda.Service.HealthCheck.csproj", "{5CFA465D-856E-4F04-ADDE-90C73701E4D1}"
 EndProject
@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.Governance
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.HealthCheck.Autofac", "RedPanda.Service.HealthCheck.Autofac\RedPanda.Service.HealthCheck.Autofac.csproj", "{84820CD6-6654-4E02-B80C-C69E660E7071}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedPanda.Service.Governance.NewtonsoftJson", "RedPanda.Service.Governance.NewtonsoftJson\RedPanda.Service.Governance.NewtonsoftJson.csproj", "{80F61D84-43E2-4F79-B63B-F2249EEE410C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.Governance.NewtonsoftJson", "RedPanda.Service.Governance.NewtonsoftJson\RedPanda.Service.Governance.NewtonsoftJson.csproj", "{80F61D84-43E2-4F79-B63B-F2249EEE410C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedPanda.Service.Governance.Test", "RedPanda.Service.Governance.Test\RedPanda.Service.Governance.Test.csproj", "{E33422A2-5F56-4B82-8F1C-7421E3049D5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedPanda.Service.Governance.Test", "RedPanda.Service.Governance.Test\RedPanda.Service.Governance.Test.csproj", "{E33422A2-5F56-4B82-8F1C-7421E3049D5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedPanda.Service.Governance.DependencyInjection", "RedPanda.Service.Governance.DependencyInjection\RedPanda.Service.Governance.DependencyInjection.csproj", "{F4538BEA-FB01-479C-B5FA-F61CF668CD16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{E33422A2-5F56-4B82-8F1C-7421E3049D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E33422A2-5F56-4B82-8F1C-7421E3049D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E33422A2-5F56-4B82-8F1C-7421E3049D5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4538BEA-FB01-479C-B5FA-F61CF668CD16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4538BEA-FB01-479C-B5FA-F61CF668CD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4538BEA-FB01-479C-B5FA-F61CF668CD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4538BEA-FB01-479C-B5FA-F61CF668CD16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

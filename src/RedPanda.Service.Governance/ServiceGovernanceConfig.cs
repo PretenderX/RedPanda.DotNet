@@ -10,7 +10,7 @@ namespace RedPanda.Service.Governance
         public static IJsonProvider JsonProvider { get; set; } = new SystemTextJsonProvider();
 
         /// <summary>
-        /// 默认60秒
+        /// 默认10秒
         /// </summary>
         public static TimeSpan ServiceCheckInterval
         {
@@ -47,7 +47,7 @@ namespace RedPanda.Service.Governance
         }
 
         /// <summary>
-        /// 默认300秒
+        /// 默认60秒
         /// </summary>
         public static TimeSpan DeregisterCriticalServiceAfter
         {
