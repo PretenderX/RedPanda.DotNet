@@ -20,5 +20,7 @@
         public string VirtualDirectory { get; set; }
 
         public string HealthCheckRoute { get; set; }
+
+        public string ServiceAddress => $"{ServiceSchema ?? "http"}://{Host}:{Port}";
     }
 }
