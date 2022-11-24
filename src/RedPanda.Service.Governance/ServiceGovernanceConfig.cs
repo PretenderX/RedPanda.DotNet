@@ -1,3 +1,4 @@
+﻿using Microsoft.Extensions.Configuration;
 ﻿using RedPanda.Service.Governance.Common;
 using System;
 
@@ -5,6 +6,11 @@ namespace RedPanda.Service.Governance
 {
     public static class ServiceGovernanceConfig
     {
+        public static void UseDotNetConfiguration(IConfiguration configuration)
+        {
+            ServiceGovernanceConfigProvider = new ServiceGovernanceConfigProvider(configuration);
+        }
+
         public static IServiceGovernanceConfigProvider ServiceGovernanceConfigProvider { get; set; } = new WebConfigServiceGovernanceConfigProvider();
 
         public static IJsonProvider JsonProvider { get; set; } = new SystemTextJsonProvider();
