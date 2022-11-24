@@ -10,6 +10,11 @@ namespace RedPanda.Service.Governance.NewtonsoftJson
 {
     public class NewtonsoftJsonProvider : IJsonProvider
     {
+        public static void Use()
+        {
+            ServiceGovernanceConfig.JsonProvider = new NewtonsoftJsonProvider();
+        }
+
         public TValue GetValueFromJson<TValue>(byte[] utf8JsonBytes, string semicolonsJoinedPropertyNames)
         {
             using (var stream = new MemoryStream(utf8JsonBytes))
