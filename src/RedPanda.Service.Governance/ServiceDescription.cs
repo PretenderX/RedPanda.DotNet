@@ -32,15 +32,16 @@
                 var serviceSchema = string.IsNullOrEmpty(ServiceSchema) ? ServiceGovernanceConsts.DefaultServiceSchema : ServiceSchema;
                 var address = $"{serviceSchema}://{ServiceHost}";
                 var port = ServicePort == default ? ServiceGovernanceConsts.DefaultServicePort : ServicePort;
+                var virtualDirectory = ServiceVirtualDirectory?.Trim('/');
 
                 if (port > 0 && port != 80 && port != 443)
                 {
                     address = $"{address}:{port}";
                 }
 
-                if (!string.IsNullOrEmpty(ServiceVirtualDirectory))
+                if (!string.IsNullOrEmpty(virtualDirectory))
                 {
-                    address = $"{address}/{ServiceVirtualDirectory.Trim('/')}";
+                    address = $"{address}/{virtualDirectory}";
                 }
 
                 return address ;

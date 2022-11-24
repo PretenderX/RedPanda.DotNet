@@ -20,10 +20,14 @@ namespace RedPanda.Service.Governance.Common
                 address = $"{address}:{port}";
             }
 
-            if (catalogService.ServiceMeta.TryGetValue(ServiceGovernanceConsts.ServiceVirtualDirectory, out var virtualDirecotory) &&
-                !string.IsNullOrEmpty(virtualDirecotory))
+            if (catalogService.ServiceMeta.TryGetValue(ServiceGovernanceConsts.ServiceVirtualDirectory, out var virtualDirectory))
             {
-                address = $"{address}/{virtualDirecotory.Trim('/')}";
+                virtualDirectory = virtualDirectory?.Trim('/');
+
+                if (!string.IsNullOrEmpty(virtualDirectory))
+                {
+                    address = $"{address}/{virtualDirectory.Trim('/')}";
+                }
             }
 
             return address;
