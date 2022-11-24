@@ -23,7 +23,7 @@ namespace RedPanda.Service.Governance.Configuration
             var consulAddress = serviceConfiguration[ServiceGovernanceConsts.ConsulAddress];
             var consulToken = serviceConfiguration[ServiceGovernanceConsts.ConsulToken];
 
-            builder.AddConsul(consulConfigurationKey, default, options =>
+            builder.AddConsul(consulConfigurationKey, options =>
             {
                 options.ConsulConfigurationOptions = consulOptions =>
                 {
