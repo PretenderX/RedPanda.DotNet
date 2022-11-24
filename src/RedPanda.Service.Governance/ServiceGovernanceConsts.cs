@@ -23,6 +23,7 @@
 
         public const char JsonPropertyNameSplitChar = ':';
 
+        public const string DefaultConsulAddress = "http://localhost:8500";
         public const string DefaultServiceSchema = "http";
         public const int DefaultServicePort = 80;
         public const int DefaultServiceCheckTimeout = 30;
