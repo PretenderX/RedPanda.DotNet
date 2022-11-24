@@ -23,5 +23,15 @@ namespace RedPanda.Service.Governance.Common
 
             return value;
         }
+
+        public T GetAppSetting<T>(string name)
+        {
+            return Configuration.GetValue<T>(name);
+        }
+
+        public T GetAppSetting<T>(string name, T defaultValue)
+        {
+            return Configuration.GetValue(name, defaultValue);
+        }
     }
 }

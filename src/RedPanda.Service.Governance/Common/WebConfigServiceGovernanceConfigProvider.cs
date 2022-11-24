@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using RedPanda.Service.Governance.Configuration;
 using RedPanda.Service.Governance.Exceptions;
 
 namespace RedPanda.Service.Governance.Common
@@ -15,6 +16,23 @@ namespace RedPanda.Service.Governance.Common
             }
 
             return value;
+        }
+
+        public T GetAppSetting<T>(string name)
+        {
+            return GetAppSetting(name, default(T));
+        }
+
+        public T GetAppSetting<T>(string name, T defaultValue)
+        {
+            var value = GetAppSetting(name);
+
+            if (value == null)
+            {
+                return defaultValue;
+            }
+
+            return value.As<T>();
         }
     }
 }
