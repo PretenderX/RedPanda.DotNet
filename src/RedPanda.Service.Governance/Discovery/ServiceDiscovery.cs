@@ -26,11 +26,30 @@ namespace RedPanda.Service.Governance.Discovery
             return GetCatalogServicesAsync(serviceName, localServiceSpace, serviceTag);
         }
 
+        public async Task<ServiceEntry[]> GetHealthyServicesAsync(string serviceName, string serviceSpace = null, string serviceTag = null)
+        {
+            var scopedServiceName = GetScopedServiceName(serviceName, serviceSpace);
+
+            using (var consulClient = ConsulClientFactory.Create())
+            {
+                var queryResult = string.IsNullOrEmpty(serviceTag) ? await consulClient.Health.Service(scopedServiceName) : await consulClient.Health.Service(scopedServiceName, serviceTag);
+
+                return queryResult.Response;
+            }
+        }
+
+        public Task<ServiceEntry[]> GetHealthyServicesByLocalSpaceAsync(string serviceName, string serviceTag = null)
+        {
+            var localServiceSpace = LocalServiceDescriptionProvider.GetLocalServiceSpace();
+
+            return GetHealthyServicesAsync(serviceName, localServiceSpace, serviceTag);
+        }
+
         public async Task<string[]> GetServiceAddressesAsync(string serviceName, string serviceSpace = null, string serviceTag = null)
         {
-            var catalogServices = await GetCatalogServicesAsync(serviceName, serviceSpace, serviceTag);
+            var healthyServices = await GetHealthyServicesAsync(serviceName, serviceSpace, serviceTag);
 
-            return catalogServices.Select(s => s.GetRegisteredServiceAddress()).ToArray();
+            return healthyServices.Select(s => s.Service.GetHealthyServiceAddress()).ToArray();
         }
 
         public Task<string[]> GetServiceAddressesByLocalSpaceAsync(string serviceName, string serviceTag = null)
