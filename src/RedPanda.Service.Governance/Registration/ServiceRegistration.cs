@@ -44,9 +44,9 @@ namespace RedPanda.Service.Governance.Registration
                 Timeout = TimeSpan.FromSeconds(serviceDescription.ServiceCheckTimeout),
             };
 
-            if (!IsDevelopmentEnvironment())
+            if (serviceDescription.DeregisterCriticalServiceAfter.HasValue && serviceDescription.DeregisterCriticalServiceAfter.Value > 0)
             {
-                serviceCheck.DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(serviceDescription.DeregisterCriticalServiceAfter);
+                serviceCheck.DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(serviceDescription.DeregisterCriticalServiceAfter.Value);
             }
 
             var serviceNames = new List<string> { serviceDescription.ServiceName };

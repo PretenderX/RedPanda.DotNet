@@ -54,6 +54,6 @@
 
         public int ServiceCheckTimeout { get; set; } = ServiceGovernanceConsts.DefaultServiceCheckTimeout;
 
-        public int DeregisterCriticalServiceAfter { get; set; } = ServiceGovernanceConsts.DefaultDeregisterCriticalServiceAfter;
+        public int? DeregisterCriticalServiceAfter { get; set; }
     }
 }

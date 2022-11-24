@@ -17,7 +17,7 @@
 
                 ServiceCheckInterval = GetAppSetting(ServiceGovernanceConsts.ServiceCheckInterval, ServiceGovernanceConsts.DefaultServiceCheckInterval),
                 ServiceCheckTimeout = GetAppSetting(ServiceGovernanceConsts.ServiceCheckTimeout, ServiceGovernanceConsts.DefaultServiceCheckTimeout),
-                DeregisterCriticalServiceAfter = GetAppSetting(ServiceGovernanceConsts.DeregisterCriticalServiceAfter, ServiceGovernanceConsts.DefaultDeregisterCriticalServiceAfter),
+                DeregisterCriticalServiceAfter = GetAppSetting<int?>(ServiceGovernanceConsts.DeregisterCriticalServiceAfter, default),
             };
         }
 

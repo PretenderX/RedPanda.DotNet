@@ -28,6 +28,5 @@
         public const int DefaultServicePort = 80;
         public const int DefaultServiceCheckTimeout = 30;
         public const int DefaultServiceCheckInterval = 10;
-        public const int DefaultDeregisterCriticalServiceAfter = 60;
     }
 }
