@@ -23,35 +23,30 @@ namespace RedPanda.Service.Governance.Registration
         public async Task RegisterSelfAsync(Action<Dictionary<string, string>> appendMetaAction = null)
         {
             var serviceDescription = LocalServiceDescriptionProvider.Build();
-            var serviceSchema = serviceDescription.ServiceSchema ?? "http";
-            var registeringServiceAddress = $"{serviceSchema}://{serviceDescription.Host}:{serviceDescription.Port}";
-            var virtualDirectory = serviceDescription.VirtualDirectory.Trim('/');
-            var serviceMeta = new Dictionary<string, string>
-            {
-                { ServiceGovernanceConsts.ServiceSchema, serviceSchema }
-            };
+            var serviceMeta = new Dictionary<string, string>();
 
-            if (appendMetaAction != null)
+            if (!string.IsNullOrEmpty(serviceDescription.ServiceSchema))
             {
-                appendMetaAction.Invoke(serviceMeta);
+                serviceMeta.Add(ServiceGovernanceConsts.ServiceSchema, serviceDescription.ServiceSchema);
             }
 
-            if (!string.IsNullOrEmpty(virtualDirectory))
+            if (!string.IsNullOrEmpty(serviceDescription.ServiceVirtualDirectory))
             {
-                serviceMeta.Add(ServiceGovernanceConsts.ServiceVirtualDirectory, serviceDescription.VirtualDirectory);
-                registeringServiceAddress = $"{registeringServiceAddress}/{serviceDescription.VirtualDirectory}";
+                serviceMeta.Add(ServiceGovernanceConsts.ServiceVirtualDirectory, serviceDescription.ServiceVirtualDirectory);
             }
+
+            appendMetaAction?.Invoke(serviceMeta);
 
             var serviceCheck = new AgentServiceCheck
             {
-                Interval = ServiceGovernanceConfig.ServiceCheckInterval,
-                HTTP = $"{registeringServiceAddress}/{serviceDescription.HealthCheckRoute.Trim('/') ?? string.Empty}",
-                Timeout = ServiceGovernanceConfig.ServiceCheckTimeout,
+                Interval = TimeSpan.FromSeconds(serviceDescription.ServiceCheckInterval),
+                HTTP = serviceDescription.HealthCheckUrl,
+                Timeout = TimeSpan.FromSeconds(serviceDescription.ServiceCheckTimeout),
             };
 
             if (!IsDevelopmentEnvironment())
             {
-                serviceCheck.DeregisterCriticalServiceAfter = ServiceGovernanceConfig.DeregisterCriticalServiceAfter;
+                serviceCheck.DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(serviceDescription.DeregisterCriticalServiceAfter);
             }
 
             var serviceNames = new List<string> { serviceDescription.ServiceName };
@@ -73,32 +68,23 @@ namespace RedPanda.Service.Governance.Registration
             {
                 foreach (var serviceName in serviceNames)
                 {
+                    var fullServiceName = $"{serviceDescription.ServiceSpace}.{serviceName}";
                     var serviceRegistration = new AgentServiceRegistration
                     {
                         Checks = new[] { serviceCheck },
                         ID = Guid.NewGuid().ToString(),
-                        Address = serviceDescription.Host,
-                        Port = serviceDescription.Port == 0 ? 80 : serviceDescription.Port,
+                        Name = fullServiceName,
+                        Address = serviceDescription.ServiceHost,
+                        Port = serviceDescription.ServicePort,
                         Meta = serviceMeta,
+                        Tags = new[] { serviceDescription.ServiceSpace, $"urlprefix-/{fullServiceName}" },
                     };
-
-                    if (string.IsNullOrEmpty(serviceDescription.ServiceSpace))
-                    {
-                        serviceRegistration.Name = serviceName;
-                        serviceRegistration.Tags = new[] { $"urlprefix-/{serviceRegistration.Name}" };
-                    }
-                    else
-                    {
-                        serviceRegistration.Name = $"{serviceDescription.ServiceSpace}.{serviceName}";
-                        serviceRegistration.Tags = new[] { serviceDescription.ServiceSpace, $"urlprefix-/{serviceRegistration.Name}" };
-                    }
-
                     var existingServices = (await consulClient.Catalog.Service(serviceRegistration.Name)).Response;
 
                     foreach (var service in existingServices)
                     {
                         var registeredServiceAddress = service.GetRegisteredServiceAddress();
-                        if (registeredServiceAddress == registeringServiceAddress)
+                        if (registeredServiceAddress == serviceDescription.ServiceAddress)
                         {
                             await consulClient.Agent.ServiceDeregister(service.ServiceID);
                         }

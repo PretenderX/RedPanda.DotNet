@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RedPanda.Service.Governance.Common
+﻿namespace RedPanda.Service.Governance.Common
 {
     public static class LocalServiceDescriptionProvider
     {
@@ -8,14 +6,18 @@ namespace RedPanda.Service.Governance.Common
         {
             return new ServiceDescription
             {
-                ServiceSpace = GetAppSetting(ServiceGovernanceConsts.ServiceSpace),
+                ServiceSpace = GetAppSetting(ServiceGovernanceConsts.ServiceSpace, false),
                 ServiceName = GetAppSetting(ServiceGovernanceConsts.ServiceName, false),
                 ServiceAliases = GetAppSetting(ServiceGovernanceConsts.ServiceAliases),
-                ServiceSchema = GetAppSetting(ServiceGovernanceConsts.ServiceSchema),
-                Host = GetAppSetting(ServiceGovernanceConsts.ServiceHost, false),
-                Port = Convert.ToInt32(GetAppSetting(ServiceGovernanceConsts.ServicePort, false)),
-                VirtualDirectory = GetAppSetting(ServiceGovernanceConsts.ServiceVirtualDirectory),
-                HealthCheckRoute = GetAppSetting(ServiceGovernanceConsts.ServiceHealthRoute),
+                ServiceSchema = GetAppSetting(ServiceGovernanceConsts.ServiceSchema, ServiceGovernanceConsts.DefaultServiceSchema),
+                ServiceHost = GetAppSetting(ServiceGovernanceConsts.ServiceHost, false),
+                ServicePort = GetAppSetting(ServiceGovernanceConsts.ServicePort, ServiceGovernanceConsts.DefaultServicePort),
+                ServiceVirtualDirectory = GetAppSetting(ServiceGovernanceConsts.ServiceVirtualDirectory),
+                ServiceHealthCheckRoute = GetAppSetting(ServiceGovernanceConsts.ServiceHealthRoute),
+
+                ServiceCheckInterval = GetAppSetting(ServiceGovernanceConsts.ServiceCheckInterval, ServiceGovernanceConsts.DefaultServiceCheckInterval),
+                ServiceCheckTimeout = GetAppSetting(ServiceGovernanceConsts.ServiceCheckTimeout, ServiceGovernanceConsts.DefaultServiceCheckTimeout),
+                DeregisterCriticalServiceAfter = GetAppSetting(ServiceGovernanceConsts.DeregisterCriticalServiceAfter, ServiceGovernanceConsts.DefaultDeregisterCriticalServiceAfter),
             };
         }
 
@@ -25,5 +27,6 @@ namespace RedPanda.Service.Governance.Common
         }
 
         private static string GetAppSetting(string name, bool isOptional = true) => ServiceGovernanceConfig.ServiceGovernanceConfigProvider.GetAppSetting(name, isOptional);
+        private static T GetAppSetting<T>(string name, T defaultValue) => ServiceGovernanceConfig.ServiceGovernanceConfigProvider.GetAppSetting(name, defaultValue);
     }
 }

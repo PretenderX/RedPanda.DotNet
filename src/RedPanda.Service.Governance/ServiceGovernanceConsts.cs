@@ -5,7 +5,6 @@
         public const string ENVIRONMENT = "ASPNETCORE_ENVIRONMENT";
         public const string DevelopmentEnvironment = "Development";
 
-
         public const string ServiceSpace = "ServiceSpace";
         public const string ServiceName = "ServiceName";
         public const string ServiceAliases = "ServiceAliases";
@@ -23,5 +22,11 @@
         public const string ConsulToken = "ConsulToken";
 
         public const char JsonPropertyNameSplitChar = ':';
+
+        public const string DefaultServiceSchema = "http";
+        public const int DefaultServicePort = 80;
+        public const int DefaultServiceCheckTimeout = 30;
+        public const int DefaultServiceCheckInterval = 10;
+        public const int DefaultDeregisterCriticalServiceAfter = 60;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 ﻿using RedPanda.Service.Governance.Common;
-using System;
 
 namespace RedPanda.Service.Governance
 {
@@ -32,60 +31,5 @@ namespace RedPanda.Service.Governance
         }
 
         public static string GetSettingName(string originalName) => ConfigurationSectionEnabled ? $"{ConfigurationSectionName}:{originalName}" : originalName;
-
-        /// <summary>
-        /// 默认10秒
-        /// </summary>
-        public static TimeSpan ServiceCheckInterval
-        {
-            get
-            {
-                var configValue = ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ServiceCheckInterval);
-
-                if (!int.TryParse(configValue, out var interval))
-                {
-                    interval = 10;
-                }
-
-
-                return TimeSpan.FromSeconds(interval);
-            }
-        }
-
-        /// <summary>
-        /// 默认30秒
-        /// </summary>
-        public static TimeSpan ServiceCheckTimeout
-        {
-            get
-            {
-                var configValue = ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ServiceCheckTimeout);
-
-                if (int.TryParse(configValue, out var interval))
-                {
-                    interval = 30;
-                }
-
-                return TimeSpan.FromSeconds(interval);
-            }
-        }
-
-        /// <summary>
-        /// 默认60秒
-        /// </summary>
-        public static TimeSpan DeregisterCriticalServiceAfter
-        {
-            get
-            {
-                var configValue = ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.DeregisterCriticalServiceAfter);
-
-                if (!int.TryParse(configValue, out var interval))
-                {
-                    interval = 60;
-                }
-
-                return TimeSpan.FromSeconds(interval);
-            }
-        }
     }
 }

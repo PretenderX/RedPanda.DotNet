@@ -2,6 +2,8 @@
 {
     public class ServiceDescription
     {
+        public const string SectionName = "ServiceGovernance";
+
         public string ServiceSpace { get; set; }
 
         public string ServiceName { get; set; }
@@ -11,18 +13,46 @@
         public string ServiceAliases { get; set; }
 
         /// <summary>
-        /// http or https
+        /// http or https or ws or wss
         /// </summary>
-        public string ServiceSchema { get; set; }
+        public string ServiceSchema { get; set; } = ServiceGovernanceConsts.DefaultServiceSchema;
 
-        public string Host { get; set; }
+        public string ServiceHost { get; set; }
 
-        public int Port { get; set; }
+        public int ServicePort { get; set; } = ServiceGovernanceConsts.DefaultServicePort;
 
-        public string VirtualDirectory { get; set; }
+        public string ServiceVirtualDirectory { get; set; }
 
-        public string HealthCheckRoute { get; set; }
+        public string ServiceHealthCheckRoute { get; set; }
 
-        public string ServiceAddress => $"{ServiceSchema ?? "http"}://{Host}:{Port}";
+        public string ServiceAddress
+        {
+            get
+            {
+                var serviceSchema = string.IsNullOrEmpty(ServiceSchema) ? ServiceGovernanceConsts.DefaultServiceSchema : ServiceSchema;
+                var address = $"{serviceSchema}://{ServiceHost}";
+                var port = ServicePort == default ? ServiceGovernanceConsts.DefaultServicePort : ServicePort;
+
+                if (port > 0 && port != 80 && port != 443)
+                {
+                    address = $"{address}:{port}";
+                }
+
+                if (!string.IsNullOrEmpty(ServiceVirtualDirectory))
+                {
+                    address = $"{address}/{ServiceVirtualDirectory.Trim('/')}";
+                }
+
+                return address ;
+            }
+        }
+
+        public string HealthCheckUrl => string.IsNullOrEmpty(ServiceHealthCheckRoute) ? ServiceAddress : $"{ServiceAddress}/{ServiceHealthCheckRoute.Trim('/')}";
+
+        public int ServiceCheckInterval { get; set; } = ServiceGovernanceConsts.DefaultServiceCheckInterval;
+
+        public int ServiceCheckTimeout { get; set; } = ServiceGovernanceConsts.DefaultServiceCheckTimeout;
+
+        public int DeregisterCriticalServiceAfter { get; set; } = ServiceGovernanceConsts.DefaultDeregisterCriticalServiceAfter;
     }
 }
