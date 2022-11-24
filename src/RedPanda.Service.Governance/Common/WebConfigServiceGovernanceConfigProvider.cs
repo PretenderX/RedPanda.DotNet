@@ -6,9 +6,10 @@ namespace RedPanda.Service.Governance.Common
 {
     public class WebConfigServiceGovernanceConfigProvider : IServiceGovernanceConfigProvider
     {
-        public string GetAppSetting(string name, bool isOptional = true)
+        public virtual string GetAppSetting(string name, bool isOptional = true)
         {
-            var value = ConfigurationManager.AppSettings.Get(name);
+            var settingName = ServiceGovernanceConfig.GetSettingName(name);
+            var value = ConfigurationManager.AppSettings.Get(settingName);
 
             if (!isOptional && string.IsNullOrEmpty(value))
             {
@@ -18,12 +19,12 @@ namespace RedPanda.Service.Governance.Common
             return value;
         }
 
-        public T GetAppSetting<T>(string name)
+        public virtual T GetAppSetting<T>(string name)
         {
             return GetAppSetting(name, default(T));
         }
 
-        public T GetAppSetting<T>(string name, T defaultValue)
+        public virtual T GetAppSetting<T>(string name, T defaultValue)
         {
             var value = GetAppSetting(name);
 

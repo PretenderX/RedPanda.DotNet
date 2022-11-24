@@ -14,7 +14,8 @@ namespace RedPanda.Service.Governance.Common
 
         public virtual string GetAppSetting(string name, bool isOptional = true)
         {
-            var value = Configuration[name];
+            var settingName = ServiceGovernanceConfig.GetSettingName(name);
+            var value = Configuration[settingName];
 
             if (!isOptional && string.IsNullOrEmpty(value))
             {
@@ -24,14 +25,18 @@ namespace RedPanda.Service.Governance.Common
             return value;
         }
 
-        public T GetAppSetting<T>(string name)
+        public virtual T GetAppSetting<T>(string name)
         {
-            return Configuration.GetValue<T>(name);
+            var settingName = ServiceGovernanceConfig.GetSettingName(name);
+
+            return Configuration.GetValue<T>(settingName);
         }
 
-        public T GetAppSetting<T>(string name, T defaultValue)
+        public virtual T GetAppSetting<T>(string name, T defaultValue)
         {
-            return Configuration.GetValue(name, defaultValue);
+            var settingName = ServiceGovernanceConfig.GetSettingName(name);
+
+            return Configuration.GetValue(settingName, defaultValue);
         }
     }
 }
