@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RedPanda.Service.Governance.Configuration
 {
-    public class ScopedConfigManager : ConfigManagerBase, IScopedConfigManager
+    public class ScopedConfigManager : IScopedConfigManager
     {
         private IJsonProvider JsonConfigProvider => ServiceGovernanceConfig.JsonProvider;
 
@@ -76,7 +76,7 @@ namespace RedPanda.Service.Governance.Configuration
 
             var value = await GetSettingOfLocalSpaceAsync(key);
 
-            return GetReturnValue<TValue>(value);
+            return value.As<TValue>();
         }
 
         public async Task<TValue> GetSettingAsync<TValue>(string key, string serviceSpace = null)
@@ -85,7 +85,7 @@ namespace RedPanda.Service.Governance.Configuration
 
             var value = await GetSettingAsync(key, serviceSpace);
 
-            return GetReturnValue<TValue>(value);
+            return value.As<TValue>();
         }
 
         public Task<string> GetJsonSettingOfLocalSpaceAsync(string key, string semicolonsJoinedPropertyNames)

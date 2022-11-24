@@ -2,9 +2,9 @@
 
 namespace RedPanda.Service.Governance.Configuration
 {
-    public class ConfigManagerBase
+    public static class ConfigurationValueExtension
     {
-        protected static T GetReturnValue<T>(string value)
+        public static T As<T>( this string value)
         {
             var type = typeof(T);
             T returnValue;

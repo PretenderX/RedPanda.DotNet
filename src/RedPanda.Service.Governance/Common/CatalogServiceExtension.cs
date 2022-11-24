@@ -9,15 +9,15 @@ namespace RedPanda.Service.Governance.Common
             catalogService.ServiceMeta.TryGetValue(ServiceGovernanceConsts.ServiceSchema, out var serviceSchema);
             serviceSchema = serviceSchema ?? "http";
 
-            if (catalogService.ServiceMeta.TryGetValue(ServiceGovernanceConsts.ServiceVirtualDirectory, out var virtualDirecotory))
+            var address = $"{serviceSchema}://{catalogService.ServiceAddress}:{catalogService.ServicePort}";
+
+            if (catalogService.ServiceMeta.TryGetValue(ServiceGovernanceConsts.ServiceVirtualDirectory, out var virtualDirecotory) &&
+                !string.IsNullOrEmpty(virtualDirecotory))
             {
-                if (!string.IsNullOrEmpty(virtualDirecotory))
-                {
-                    return $"{serviceSchema}://{catalogService.ServiceAddress}:{catalogService.ServicePort}/{virtualDirecotory}";
-                }
+                address = $"{address}/{virtualDirecotory}";
             }
 
-            return $"{serviceSchema}://{catalogService.ServiceAddress}:{catalogService.ServicePort}";
+            return address;
         }
     }
 }
