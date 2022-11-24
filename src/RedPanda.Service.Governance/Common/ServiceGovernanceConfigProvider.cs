@@ -19,7 +19,7 @@ namespace RedPanda.Service.Governance.Common
 
             if (!isOptional && string.IsNullOrEmpty(value))
             {
-                throw new NotFoundServiceGovernanceConfigItemException(name);
+                throw new NotFoundServiceGovernanceConfigItemException(settingName);
             }
 
             return value;
