@@ -22,7 +22,7 @@ namespace RedPanda.Service.Governance.Configuration
             }
             catch (Exception e)
             {
-                throw new ApplicationException($"Unabale to convert setting value ({value}) to type ({type.FullName}).", e);
+                throw new InvalidCastException($"Unabale to convert setting value ({value}) to type ({type.FullName}).", e);
             }
 
             return returnValue;

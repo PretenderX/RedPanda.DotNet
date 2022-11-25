@@ -1,7 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RedPanda.Service.Governance.Common;
 using RedPanda.Service.Governance.Configuration;
 using RedPanda.Service.Governance.Discovery;
 using RedPanda.Service.Governance.Registration;
@@ -23,8 +21,6 @@ namespace RedPanda.Service.Governance.DependencyInjection
 
         public static IServiceProvider UseServiceGovermance(this IServiceProvider serviceProvider, Action<Dictionary<string, string>> appendMetaAction = null)
         {
-            ServiceGovernanceConfig.ServiceGovernanceConfigProvider = new ServiceGovernanceConfigProvider(serviceProvider.GetRequiredService<IConfiguration>());
-
             var hostApplicationLifetime = serviceProvider.GetService<IHostApplicationLifetime>();
 
             hostApplicationLifetime?.ApplicationStarted.Register(() => serviceProvider.GetService<IServiceRegistration>()?.RegisterSelf(appendMetaAction));

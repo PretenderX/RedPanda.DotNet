@@ -2,6 +2,14 @@
 {
     public static class LocalServiceDescriptionProvider
     {
+        private static ServiceDescription value;
+        public static ServiceDescription Value => value ?? (value = Build());
+
+        public static void RefreshValue()
+        {
+            value = null;
+        }
+
         public static ServiceDescription Build()
         {
             return new ServiceDescription
