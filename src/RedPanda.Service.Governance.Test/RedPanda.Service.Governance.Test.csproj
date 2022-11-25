@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RedPanda.Service.Governance.NewtonsoftJson\RedPanda.Service.Governance.NewtonsoftJson.csproj" />
     <ProjectReference Include="..\RedPanda.Service.Governance\RedPanda.Service.Governance.csproj" />
   </ItemGroup>
 

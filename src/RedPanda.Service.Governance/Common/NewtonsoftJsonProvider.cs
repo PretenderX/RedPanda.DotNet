@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RedPanda.Service.Governance.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace RedPanda.Service.Governance.NewtonsoftJson
+namespace RedPanda.Service.Governance.Common
 {
     public class NewtonsoftJsonProvider : IJsonProvider
     {
@@ -50,7 +49,7 @@ namespace RedPanda.Service.Governance.NewtonsoftJson
 
                             return readingElement.Value<TValue>();
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             throw new InvalidCastException($"不支持将 \"{readingElement.Value<string>()}\" 转换为 \"{returnType.FullName}\" 类型", e);
                         }

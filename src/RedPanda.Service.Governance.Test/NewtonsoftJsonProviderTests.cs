@@ -1,4 +1,4 @@
-﻿using RedPanda.Service.Governance.NewtonsoftJson;
+﻿using RedPanda.Service.Governance.Common;
 
 namespace RedPanda.Service.Governance.Test
 {
