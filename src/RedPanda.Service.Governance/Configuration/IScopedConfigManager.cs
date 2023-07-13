@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace RedPanda.Service.Governance.Configuration
 {
-    public interface IScopedConfigManager
+    public interface IScopedConfigManager : IDisposable
     {
         /// <summary>
         /// 将配置项写入到本地配置的ServiceSpace中

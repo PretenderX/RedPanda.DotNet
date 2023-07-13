@@ -1,9 +1,10 @@
 ﻿using Consul;
+using System;
 using System.Threading.Tasks;
 
 namespace RedPanda.Service.Governance.Discovery
 {
-    public interface IServiceDiscovery
+    public interface IServiceDiscovery : IDisposable
     {
         /// <summary>
         /// 使用指定的ServiceSpace的值获取服务地址

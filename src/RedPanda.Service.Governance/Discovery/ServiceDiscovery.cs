@@ -7,16 +7,20 @@ namespace RedPanda.Service.Governance.Discovery
 {
     public class ServiceDiscovery : IServiceDiscovery
     {
+        protected readonly IConsulClient ConsulClient;
+
+        public ServiceDiscovery()
+        {
+            ConsulClient = ConsulClientFactory.Create();
+        }
+
         public async Task<CatalogService[]> GetCatalogServicesAsync(string serviceName, string serviceSpace = null, string serviceTag = null)
         {
             var scopedServiceName = GetScopedServiceName(serviceName, serviceSpace);
 
-            using (var consulClient = ConsulClientFactory.Create())
-            {
-                var queryResult = string.IsNullOrEmpty(serviceTag) ? await consulClient.Catalog.Service(scopedServiceName) : await consulClient.Catalog.Service(scopedServiceName, serviceTag);
+            var queryResult = string.IsNullOrEmpty(serviceTag) ? await ConsulClient.Catalog.Service(scopedServiceName) : await ConsulClient.Catalog.Service(scopedServiceName, serviceTag);
 
-                return queryResult.Response;
-            }
+            return queryResult.Response;
         }
 
         public Task<CatalogService[]> GetCatalogServicesByLocalSpaceAsync(string serviceName, string serviceTag = null)
@@ -30,12 +34,9 @@ namespace RedPanda.Service.Governance.Discovery
         {
             var scopedServiceName = GetScopedServiceName(serviceName, serviceSpace);
 
-            using (var consulClient = ConsulClientFactory.Create())
-            {
-                var queryResult = string.IsNullOrEmpty(serviceTag) ? await consulClient.Health.Service(scopedServiceName) : await consulClient.Health.Service(scopedServiceName, serviceTag);
+            var queryResult = string.IsNullOrEmpty(serviceTag) ? await ConsulClient.Health.Service(scopedServiceName) : await ConsulClient.Health.Service(scopedServiceName, serviceTag);
 
-                return queryResult.Response;
-            }
+            return queryResult.Response;
         }
 
         public Task<ServiceEntry[]> GetHealthyServicesByLocalSpaceAsync(string serviceName, string serviceTag = null)
@@ -62,6 +63,11 @@ namespace RedPanda.Service.Governance.Discovery
         private string GetScopedServiceName(string serviceName, string serviceSpace)
         {
             return string.IsNullOrEmpty(serviceSpace) ? serviceName : $"{serviceSpace}.{serviceName}";
+        }
+
+        public void Dispose()
+        {
+            ConsulClient.Dispose();
         }
     }
 }

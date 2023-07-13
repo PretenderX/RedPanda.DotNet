@@ -8,7 +8,14 @@ namespace RedPanda.Service.Governance.Configuration
 {
     public class ScopedConfigManager : IScopedConfigManager
     {
-        private IJsonProvider JsonConfigProvider => ServiceGovernanceConfig.JsonProvider;
+        protected readonly IJsonProvider JsonConfigProvider;
+        protected readonly IConsulClient ConsulClient;
+
+        public ScopedConfigManager()
+        {
+            ConsulClient = ConsulClientFactory.Create();
+            JsonConfigProvider = ServiceGovernanceConfig.JsonProvider;
+        }
 
         public Task<bool> PutSettingToLocalSpaceAsync(string key, string value)
         {
@@ -29,17 +36,14 @@ namespace RedPanda.Service.Governance.Configuration
                 Value = Encoding.UTF8.GetBytes(value)
             };
 
-            using (var consulClient = ConsulClientFactory.Create())
+            var result = await ConsulClient.KV.Put(putPair);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var result = await consulClient.KV.Put(putPair);
-
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    return result.Response;
-                }
-
-                return false;
+                return result.Response;
             }
+
+            return false;
         }
 
         public Task<string> GetSettingOfLocalSpaceAsync(string key)
@@ -57,17 +61,14 @@ namespace RedPanda.Service.Governance.Configuration
 
             string scopedKey = GetScopedKey(key, serviceSpace);
 
-            using (var consulClient = ConsulClientFactory.Create())
+            var result = await ConsulClient.KV.Get(scopedKey);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var result = await consulClient.KV.Get(scopedKey);
-
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    return Encoding.UTF8.GetString(result.Response.Value, 0, result.Response.Value.Length);
-                }
-
-                return null;
+                return Encoding.UTF8.GetString(result.Response.Value, 0, result.Response.Value.Length);
             }
+
+            return null;
         }
 
         public async Task<TValue> GetSettingOfLocalSpaceAsync<TValue>(string key)
@@ -117,19 +118,16 @@ namespace RedPanda.Service.Governance.Configuration
 
             string scopedKey = GetScopedKey(key, serviceSpace);
 
-            using (var consulClient = ConsulClientFactory.Create())
+            var result = await ConsulClient.KV.Get(scopedKey);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var result = await consulClient.KV.Get(scopedKey);
+                var returnValue = JsonConfigProvider.GetValueFromJson<TValue>(result.Response.Value, semicolonsJoinedPropertyNames);
 
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var returnValue = JsonConfigProvider.GetValueFromJson<TValue>(result.Response.Value, semicolonsJoinedPropertyNames);
-
-                    return returnValue;
-                }
-
-                return default;
+                return returnValue;
             }
+
+            return default;
         }
 
         public Task<bool> ImportConfigToLocalSpaceAsync<TConfig>(string key, TConfig obj) where TConfig : new()
@@ -151,17 +149,14 @@ namespace RedPanda.Service.Governance.Configuration
                 Value = JsonConfigProvider.SerializeToUtf8Bytes(obj, false)
             };
 
-            using (var consulClient = ConsulClientFactory.Create())
+            var result = await ConsulClient.KV.Put(putPair);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var result = await consulClient.KV.Put(putPair);
-
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    return result.Response;
-                }
-
-                return false;
+                return result.Response;
             }
+
+            return false;
         }
 
         public Task<TConfig> LoadConfigOfLocalSpaceAsync<TConfig>(string key) where TConfig : new()
@@ -179,19 +174,16 @@ namespace RedPanda.Service.Governance.Configuration
 
             string scopedKey = GetScopedKey(key, serviceSpace);
 
-            using (var consulClient = ConsulClientFactory.Create())
+            var result = await ConsulClient.KV.Get(scopedKey);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var result = await consulClient.KV.Get(scopedKey);
+                var returnValue = JsonConfigProvider.Deserialize<TConfig>(result.Response.Value);
 
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var returnValue = JsonConfigProvider.Deserialize<TConfig>(result.Response.Value);
-
-                    return returnValue;
-                }
-
-                return default;
+                return returnValue;
             }
+
+            return default;
         }
 
         public Task<string> ExportConfigAsJsonOfLocalSpaceAsync<TConfig>(string key, bool indented = false) where TConfig : new()
@@ -209,19 +201,16 @@ namespace RedPanda.Service.Governance.Configuration
 
             string scopedKey = GetScopedKey(key, serviceSpace);
 
-            using (var consulClient = ConsulClientFactory.Create())
+            var result = await ConsulClient.KV.Get(scopedKey);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var result = await consulClient.KV.Get(scopedKey);
+                var returnValue = JsonConfigProvider.DeserializeUtf8BytesToJson<TConfig>(result.Response.Value, indented);
 
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var returnValue = JsonConfigProvider.DeserializeUtf8BytesToJson<TConfig>(result.Response.Value, indented);
-
-                    return returnValue;
-                }
-
-                return default;
+                return returnValue;
             }
+
+            return default;
         }
 
         public Task<bool> DeleteSettingKeyOfLocalSpaceAsync(string key)
@@ -239,17 +228,14 @@ namespace RedPanda.Service.Governance.Configuration
 
             string scopedKey = GetScopedKey(key, serviceSpace);
 
-            using (var consulClient = ConsulClientFactory.Create())
+            var result = await ConsulClient.KV.Delete(scopedKey);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var result = await consulClient.KV.Delete(scopedKey);
-
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    return result.Response;
-                }
-
-                return false;
+                return result.Response;
             }
+
+            return false;
         }
 
         public Task<bool> DeleteAllSettingKeysOfLocalSpace(string path = null)
@@ -263,17 +249,14 @@ namespace RedPanda.Service.Governance.Configuration
         {
             string scopedKey = GetScopedKey(path, serviceSpace);
 
-            using (var consulClient = ConsulClientFactory.Create())
+            var result = await ConsulClient.KV.DeleteTree(scopedKey);
+
+            if (result.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var result = await consulClient.KV.DeleteTree(scopedKey);
-
-                if (result.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    return result.Response;
-                }
-
-                return false;
+                return result.Response;
             }
+
+            return false;
         }
 
         private static void VallidateSettingKey(string key)
@@ -295,6 +278,11 @@ namespace RedPanda.Service.Governance.Configuration
         private static string GetScopedKey(string key, string serviceScope)
         {
             return string.IsNullOrEmpty(serviceScope) ? key : $"{serviceScope}/{key}";
+        }
+
+        public void Dispose()
+        {
+            ConsulClient.Dispose();
         }
     }
 }
