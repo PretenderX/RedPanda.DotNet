@@ -68,7 +68,7 @@ namespace RedPanda.Service.Governance.Registration
             {
                 foreach (var serviceName in serviceNames)
                 {
-                    var fullServiceName = $"{serviceDescription.ServiceSpace}.{serviceName}";
+                    var fullServiceName = string.Format(serviceDescription.FullServiceNameFormat, serviceDescription.ServiceSpace, serviceName);
                     var serviceRegistration = new AgentServiceRegistration
                     {
                         Checks = new[] { serviceCheck },
@@ -119,13 +119,6 @@ namespace RedPanda.Service.Governance.Registration
         public void Dispose()
         {
             DeregisterSelf();
-        }
-
-        private bool IsDevelopmentEnvironment()
-        {
-            var environment = Environment.GetEnvironmentVariable(ServiceGovernanceConsts.ENVIRONMENT);
-
-            return environment != null && environment.Equals(ServiceGovernanceConsts.DevelopmentEnvironment, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

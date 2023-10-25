@@ -37,8 +37,8 @@ namespace RedPanda.Service.Governance.Configuration
             builder.InitialServiceGovernanceConfigProvider(configuration);
 
             var consulConfigurationKey = buildKeyFunc.Invoke();
-            var consulAddress = ServiceGovernanceConfig.ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ConsulAddress);
-            var consulToken = ServiceGovernanceConfig.ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ConsulToken);
+            var consulAddress = ServiceGovernanceConfig.ConsulAddress;
+            var consulToken = ServiceGovernanceConfig.ConsulToken;
 
             builder.AddConsul(consulConfigurationKey, options =>
             {

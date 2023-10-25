@@ -2,9 +2,6 @@
 {
     public static class  ServiceGovernanceConsts
     {
-        public const string ENVIRONMENT = "ASPNETCORE_ENVIRONMENT";
-        public const string DevelopmentEnvironment = "Development";
-
         public const string ServiceSpace = "ServiceSpace";
         public const string ServiceName = "ServiceName";
         public const string ServiceAliases = "ServiceAliases";
@@ -24,6 +21,7 @@
         public const char JsonPropertyNameSplitChar = ':';
 
         public const string DefaultConsulAddress = "http://localhost:8500";
+        public const string DefaultFullServiceNameFormat = "{0}.{1}";
         public const string DefaultServiceSchema = "http";
         public const int DefaultServicePort = 80;
         public const int DefaultServiceCheckTimeout = 30;

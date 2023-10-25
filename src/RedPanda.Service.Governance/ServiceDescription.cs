@@ -8,7 +8,9 @@
 
         public string ServiceName { get; set; }
 
-        public string FullServiceName => $"{ServiceSpace}.{ServiceName}";
+        public string FullServiceNameFormat { get; set; } = ServiceGovernanceConsts.DefaultFullServiceNameFormat;
+
+        public string FullServiceName => string.Format(FullServiceNameFormat, ServiceSpace, ServiceName);
 
         public string ServiceAliases { get; set; }
 
@@ -44,7 +46,7 @@
                     address = $"{address}/{virtualDirectory}";
                 }
 
-                return address ;
+                return address;
             }
         }
 

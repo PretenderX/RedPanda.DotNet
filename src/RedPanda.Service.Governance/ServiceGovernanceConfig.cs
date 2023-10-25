@@ -31,5 +31,11 @@ namespace RedPanda.Service.Governance
         }
 
         public static string GetSettingName(string originalName) => ConfigurationSectionEnabled ? $"{ConfigurationSectionName}:{originalName}" : originalName;
+
+        public static string ConsulAddress => ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ConsulAddress, ServiceGovernanceConsts.DefaultConsulAddress);
+
+        public static string ConsulToken => ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ConsulToken);
+
+
     }
 }

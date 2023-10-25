@@ -7,8 +7,8 @@ namespace RedPanda.Service.Governance
     {
         public static IConsulClient Create()
         {
-            var consulAddress = ServiceGovernanceConfig.ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ConsulAddress, ServiceGovernanceConsts.DefaultConsulAddress);
-            var consulToken = ServiceGovernanceConfig.ServiceGovernanceConfigProvider.GetAppSetting(ServiceGovernanceConsts.ConsulToken);
+            var consulAddress = ServiceGovernanceConfig.ConsulAddress;
+            var consulToken = ServiceGovernanceConfig.ConsulToken;
             var consulClient = new ConsulClient(c =>
             {
                 c.Address = new Uri(consulAddress);

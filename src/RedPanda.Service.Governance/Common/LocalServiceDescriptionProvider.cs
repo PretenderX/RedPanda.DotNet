@@ -16,6 +16,7 @@
             {
                 ServiceSpace = GetAppSetting(ServiceGovernanceConsts.ServiceSpace, false),
                 ServiceName = GetAppSetting(ServiceGovernanceConsts.ServiceName, false),
+                FullServiceNameFormat = GetFullServiceNameFormat(),
                 ServiceAliases = GetAppSetting(ServiceGovernanceConsts.ServiceAliases),
                 ServiceSchema = GetAppSetting(ServiceGovernanceConsts.ServiceSchema, ServiceGovernanceConsts.DefaultServiceSchema),
                 ServiceHost = GetAppSetting(ServiceGovernanceConsts.ServiceHost, false),
@@ -32,6 +33,11 @@
         public static string GetLocalServiceSpace()
         {
             return GetAppSetting(ServiceGovernanceConsts.ServiceSpace);
+        }
+
+        public static string GetFullServiceNameFormat()
+        {
+            return GetAppSetting(nameof(ServiceDescription.FullServiceNameFormat), ServiceGovernanceConsts.DefaultFullServiceNameFormat);
         }
 
         private static string GetAppSetting(string name, bool isOptional = true) => ServiceGovernanceConfig.ServiceGovernanceConfigProvider.GetAppSetting(name, isOptional);

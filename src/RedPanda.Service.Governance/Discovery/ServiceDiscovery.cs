@@ -62,7 +62,8 @@ namespace RedPanda.Service.Governance.Discovery
 
         private string GetScopedServiceName(string serviceName, string serviceSpace)
         {
-            return string.IsNullOrEmpty(serviceSpace) ? serviceName : $"{serviceSpace}.{serviceName}";
+            var serviceFullNameFormat = LocalServiceDescriptionProvider.GetFullServiceNameFormat();
+            return string.IsNullOrEmpty(serviceSpace) ? serviceName : string.Format(serviceFullNameFormat, serviceSpace, serviceName);
         }
 
         public void Dispose()
